@@ -36,7 +36,7 @@ echo (void *arg  __attribute__ ((unused)))
     {
       bitset flags;
 
-      // USART2 RX interrupt hanler with timeout function
+      // USART2 RX interrupt handler with timeout function
       thread::poll_section ();
       flags.clear ();
       id_t to_id = eventflag::timeout_event (5000*1000);
