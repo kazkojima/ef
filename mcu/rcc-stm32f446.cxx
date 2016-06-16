@@ -105,6 +105,8 @@ ef::mcu::rcc_init (void)
 	       | (0 << 2)		// SWS read only bits
 	       | (0 << 0));	// SW 0:HSI 1:HSE 2:PLL
 
+  RCC->DCKCFGR2 = (1 << 27);	// CK48MSEL 0:PLL_Q 1:PLLSAI_P
+
   /*
    * We don't touch RCC->CR2, RCC->CFGR2, RCC->CFGR3, and RCC->CIR.
    */
