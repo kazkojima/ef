@@ -27,7 +27,7 @@
 #endif
 
 #if defined(MCU_STM32F446)
-# include "mcu/context-stm32.h"
+# include "mcu/stm32/context.h"
 #else
 # error "Unsupported MCU"
 #endif

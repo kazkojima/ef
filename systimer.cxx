@@ -22,7 +22,7 @@
 #include "ef.h"
 
 #if defined(MCU_STM32F446)
-# include "systimer-stm32.cxx"
+# include "mcu/stm32/systimer.cxx"
 #else
 # error "Unsupported MCU"
 #endif

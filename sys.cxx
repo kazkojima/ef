@@ -25,7 +25,7 @@
 #include "ef.h"
 
 #if defined(MCU_STM32F446)
-# include "sys-stm32f446.cxx"
+# include "mcu/stm32/stm32f446/sys.cxx"
 #else
 # error "Unsupported MCU"
 #endif

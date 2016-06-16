@@ -23,7 +23,7 @@
 #include "mcu.h"
 
 #if defined(MCU_STM32F446)
-# include "gpio-stm32f446.cxx"
+# include "mcu/stm32/stm32f446/gpio.cxx"
 #else
 # error "Unsupported MCU"
 #endif

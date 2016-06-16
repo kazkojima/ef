@@ -4,7 +4,7 @@ PROJECT = sample
 
 ### This is a CAN example for Nucleo STM32F446
 
-LDSCRIPT= mcu/stm32f446.ld
+LDSCRIPT= mcu/stm32/stm32f446/ef.ld
 CXXSRC = \
 	sys.cxx \
 	rcc.cxx \
@@ -30,7 +30,7 @@ DEFS  = -DFREE_STANDING -DMHZ=180 -DMCU_STM32F446 -DUSE_FPU_AUTO_SAVE
 OPT   = -O3 -Os -g -mfloat-abi=hard -mfpu=fpv4-sp-d16 -ffast-math
 LIBS  =
 
-INCDIR += . ./mcu
+INCDIR += .
 BUILDDIR = build
 
 CXXOBJS = $(addprefix $(BUILDDIR)/, $(notdir $(CXXSRC:.cxx=.o)))

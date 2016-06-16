@@ -22,7 +22,7 @@
 
 extern "C" {
 #if defined(MCU_STM32F446)
-# include "stm32f446.h"
+# include "mcu/stm32/stm32f446/mcu.h"
 #else
 # error "Unsupported MCU"
 #endif

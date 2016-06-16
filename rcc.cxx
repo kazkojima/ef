@@ -23,7 +23,7 @@
 #include "mcu.h"
 
 #if defined(MCU_STM32F446)
-# include "rcc-stm32f446.cxx"
+# include "mcu/stm32/stm32f446/rcc.cxx"
 #else
 # error "Unsupported MCU"
 #endif
