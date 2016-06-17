@@ -23,6 +23,7 @@
 
 using namespace ef;
 
+#if defined(MCU_STM32446)
 // Example: usart echo thread
 
 #define INTR_REQ_USART2		38
@@ -50,14 +51,17 @@ echo (void *arg  __attribute__ ((unused)))
 	board::usart_send ('x');
     }
 }
+#endif
 
 // Yet another led brinker
 
 void
 ef::main (void *arg  __attribute__ ((unused)))
 {
+#if defined(MCU_STM32446)
   thread *tp = thread::create (5, echo, NULL, NULL, 512, 0);
   tp->run ();
+#endif
 
   while (1)
     {

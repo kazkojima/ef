@@ -22,12 +22,16 @@
 
 #if defined(__ARM_ARCH_7M__) || defined (__ARM_ARCH_7EM__)
 # include "core/context-7mx.h"
+#elif defined(__ARM_ARCH_6M__)
+# include "core/context-6m.h"
 #else
 # error "Unsupported architecture"
 #endif
 
 #if defined(MCU_STM32F446)
 # include "mcu/stm32/context.cxx"
+#elif defined(MCU_LPC11C24)
+# include "mcu/lpc11xx/context.cxx"
 #else
 # error "Unsupported MCU"
 #endif

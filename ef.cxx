@@ -180,7 +180,7 @@ void
 thread::run (void)
 {
   thread::runnable.add (id);
-  sched ();
+  exc::sched ();
 }
 
 void
@@ -216,7 +216,7 @@ thread::poll (bitset flags)
   thread::runnable.remove (tid);
   thread::waiting.add (tid);
 
-  sched ();
+  exc::sched ();
 
   return tp->cause;
 }

@@ -23,6 +23,8 @@
 extern "C" {
 #if defined(MCU_STM32F446)
 # include "mcu/stm32/stm32f446/mcu.h"
+#elif defined(MCU_LPC11C24)
+# include "mcu/lpc11xx/lpc11c24/mcu.h"
 #else
 # error "Unsupported MCU"
 #endif

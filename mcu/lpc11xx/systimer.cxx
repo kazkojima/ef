@@ -18,16 +18,59 @@
 // a copy of the EF Runtime Library Exception along with this program;
 // see the files COPYING and EXCEPTION respectively.
 
-// raw operations like entry initialize, context switch, mutex and event
-#include <cstring>
-#include <unistd.h>
-#include "mcu.h"
-#include "ef.h"
+// LPC11xx SYST
 
-#if defined(MCU_STM32F446)
-# include "mcu/stm32/stm32f446/sys.cxx"
-#elif defined(MCU_LPC11C24)
-# include "mcu/lpc11xx/lpc11c24/sys.cxx"
-#else
-# error "Unsupported MCU"
+struct SYST
+{
+  volatile uint32_t CSR;
+  volatile uint32_t RVR;
+  volatile uint32_t CVR;
+  volatile uint32_t CR;
+};
+  
+static struct SYST *const SYST = (struct SYST *const) 0xe000e010;
+
+void
+ef::systimer::init (void)
+{
+  SYST->RVR = 0;
+  SYST->CVR = 0;
+  SYST->CSR = 7;
+}
+
+void
+ef::systimer::reload (uint32_t ticks)
+{
+  SYST->RVR = ticks;
+  SYST->CVR = 0;
+  SYST->RVR = 0;
+}
+
+uint32_t
+ef::systimer::get (void)
+{
+  return SYST->CVR;
+}
+
+#ifndef MHZ
+#define MHZ 48
 #endif
+
+uint32_t
+ef::systimer::usec_to_ticks (uint32_t usec)
+{
+  return usec * MHZ;
+}
+
+uint32_t
+ef::systimer::ticks_to_usec (uint32_t usec)
+{
+  return usec / MHZ;
+}
+
+uint32_t
+ef::systimer::max_ticks (void)
+{
+  // stm32 SysTick timer is 24-bit.
+  return (0xffffff / MHZ) * MHZ;
+}

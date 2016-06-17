@@ -18,44 +18,53 @@
 // a copy of the EF Runtime Library Exception along with this program;
 // see the files COPYING and EXCEPTION respectively.
 
-#include "irq.h"
-#include "ef.h"
+// LPC11xx IRQ
 
-#if defined(MCU_STM32F446)
-# include "mcu/stm32/irq.cxx"
-#elif defined(MCU_LPC11C24)
-# include "mcu/lpc11xx/irq.cxx"
-#else
-# error "Unsupported MCU"
-#endif
+using namespace ef;
 
-uint8_t irq::ids[MAX_IRQn];
-uint8_t irq::irqs[MAX_ID];
-bitset irq::iall;
-
-irq::irq (irqnum_t n) : irq_num(n)
+struct NVIC
 {
+  volatile uint32_t ISER[1];
+  uint32_t unused1[31];
+  volatile uint32_t ICER[1];
+  uint32_t unused2[31];
+  volatile uint32_t ISPR[1];
+  uint32_t unused3[31];
+  volatile uint32_t ICPR[1];
+  uint32_t unused4[31];
+  uint32_t unused5[64];
+  volatile uint32_t IPR[8];
+};
+
+static struct NVIC *const NVIC = (struct NVIC *const)0xE000E100;
+#define NVIC_ISER(n)	(NVIC->ISER[0])
+#define NVIC_ICER(n)	(NVIC->ICER[0])
+#define NVIC_ICPR(n)	(NVIC->ICPR[0])
+#define NVIC_IPR(n)	(NVIC->IPR[n >> 2])
+
+void
+irq::enable (void)
+{
+  NVIC_ISER (irq_num) = 1 << (irq_num & 0x1f);
 }
 
 void
-irq::claim (id_t id)
+irq::clear (void)
 {
-  if (iall.has (id))
-    return;
-
-  ids[irq_num] = id;
-  irqs[id] = irq_num;
-  iall.add (id);
+  NVIC_ICPR (irq_num) = 1 << (irq_num & 0x1f);
 }
 
-id_t
-irq::id (void)
+void
+irq::disable (void)
 {
-  return ids[irq_num];
+  NVIC_ICER (irq_num) = 1 << (irq_num & 0x1f);
 }
 
-irqnum_t
-irq::irqn (id_t id)
+void
+irq::set_prio (void)
 {
-  return irqs[id];
+  unsigned int sh = (irq_num & 3) << 3;
+
+  NVIC_IPR (irq_num) = ((NVIC_IPR(irq_num) & ~(0xFF << sh))
+			| (ef::PRIO_IRQ << sh));
 }
