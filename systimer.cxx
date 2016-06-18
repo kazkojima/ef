@@ -154,23 +154,24 @@ namespace ef
       np->prev = pp;
       free ((void *) p);
     }
+    // Insert new node just before node P
     void insert (struct node *p, uint32_t val, uint32_t id)
     {
       node *np = (node *) malloc (sizeof (node));
       np->val = val;
       np->id = id;
-      np->next = p->next;
-      np->prev = p;
-      p->next->prev = np;
-      p->next = np;
+      np->prev = p->prev;
+      np->next = p;
+      p->prev->next = np;
+      p->prev = np;
     }
     void push_front (uint32_t val, uint32_t id)
     {
-      insert (&head, val, id);
+      insert (head.next, val, id);
     }
     void push_back (uint32_t val, uint32_t id)
     {
-      insert (head.prev, val, id);
+      insert (&head, val, id);
     }
 
   private:
