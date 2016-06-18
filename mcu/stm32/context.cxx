@@ -39,13 +39,6 @@ ef::context::restore (void)
 		  : "r1", "r2", "r3", "r4", "r5", "r6", "r7", "memory");
   }
 
-// Switch thread immediately
-static inline void __attribute__ ((unused))
-sched ()
-{
-  asm ("svc	#0" : : : "memory");
-}
-
 // Exception handlers
 
 // SVCall

@@ -53,5 +53,11 @@ namespace ef
     static void preempt ();
     static void systick ();
     static void irq_handler ();
+    // Not real handler
+    // Switch thread immediately
+    static void sched ()
+    {
+      asm ("svc	#0" : : : "memory");
+    }
   };
 }
