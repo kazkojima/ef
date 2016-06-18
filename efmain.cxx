@@ -23,7 +23,7 @@
 
 using namespace ef;
 
-#if defined(MCU_STM32446)
+#if defined(MCU_STM32F446)
 // Example: usart echo thread
 
 #define INTR_REQ_USART2		38
@@ -58,7 +58,7 @@ echo (void *arg  __attribute__ ((unused)))
 void
 ef::main (void *arg  __attribute__ ((unused)))
 {
-#if defined(MCU_STM32446)
+#if defined(MCU_STM32F446)
   thread *tp = thread::create (5, echo, NULL, NULL, 512, 0);
   tp->run ();
 #endif
