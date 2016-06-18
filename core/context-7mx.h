@@ -69,13 +69,6 @@ namespace ef
       }
   };
 
-  // Switch thread immediately
-  static inline void __attribute__ ((unused))
-    sched ()
-  {
-    asm ("svc	#0" : : : "memory");
-  }
-
   static inline uint32_t __attribute__ ((unused))
     enter_critical_section (void)
   {
