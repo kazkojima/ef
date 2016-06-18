@@ -48,7 +48,7 @@ ef::sys::entry (void)
   mcu::gpio_init ();
 
   // Create idle thread
-  thread::create (MAX_ID-1, loop, NULL, NULL, 128, 0);
+  thread::create (MAX_ID-1, loop, NULL, NULL, 256, 0);
   thread::runnable.add (MAX_ID-1);
   // Create main thread
   thread *tp = thread::create (MAX_ID-2, ef::main, NULL, loop, 512, 0);
