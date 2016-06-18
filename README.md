@@ -1,8 +1,8 @@
 # ef
 tiny eventflag library
 
-ef is a very simple runtime library for ARM cortex-m embedded system which gives limited event flag and threading functions.  Currently supports STM32F446 MCU only.  Experimental support for LPC11C24 is in lpc11xx-support branch. 
-All timeout, interrupt and software signals are handled as event which has a uniue id.  A thread can wait a set of these events, i.e. one can easily write a routine driven by I/O interrupts or signals from other thread with timeout function.
+ef is a very simple runtime library for ARM cortex-m embedded system which gives limited event flag and threading functions.  Currently supports STM32F446 MCU only, though an experimental support for LPC11C24 is there.  
+All timeout, interrupt and software signals are handled as event which has a uniue id.  A thread can wait a set of these events, i.e. one can easily write a routine driven by I/O interrupts or signals from other thread with timeout function.  
 The basic idea comes from Chopstx written by gNiibe.  For Chopstx, see  
 <http://git.gniibe.org/gitweb/?p=chopstx/chopstx.git;a=summary>
 
