@@ -102,5 +102,6 @@ SECTIONS
     _end            = .;
 }
 
+__initial_sp__  = __ram_end__ - 256;
 __heap_base__   = _end;
 __heap_end__    = __ram_end__ - 0x1000;

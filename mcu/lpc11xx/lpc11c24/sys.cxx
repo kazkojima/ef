@@ -92,7 +92,7 @@ static void none (void)
 typedef void (*handler)(void);
 
 handler ef::sys::_vector[48] __attribute__ ((section(".startup.vectors"))) = {
-  (handler)(&__ram_end__ - 32),
+  (handler)(&__initial_sp__),
   ef::sys::entry,
   nmi,			// -14:nmi
   hard_fault,		// -13:hard fault

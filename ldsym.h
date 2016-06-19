@@ -29,7 +29,7 @@ extern "C"
   extern char _bss_start, _bss_end;
   extern char _data, _edata, _textdata;
   extern char __init_array_start, __init_array_end;
-  extern char __ram_end__;
+  extern char __initial_sp__;
   extern char __heap_base__;
   extern char __heap_end__;
 }
