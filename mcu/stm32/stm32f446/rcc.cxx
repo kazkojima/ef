@@ -44,7 +44,7 @@ ef::mcu::rcc_init (void)
   // Reset CR
   RCC->CR = 0x83;
   RCC->CFGR = 0;
-  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI)
+  while (((RCC->CFGR >> RCC_CFGR_SWS_SHIFT) & 3) != RCC_CFGR_SWS_HSI)
     ;
   // Reset PLLCFGR
   RCC->PLLCFGR = 0x24003010;
@@ -121,9 +121,9 @@ ef::mcu::rcc_init (void)
   RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;
 
   // Switching on the configured clock source.
-  RCC->CFGR &= ~RCC_CFGR_SW;
-  RCC->CFGR |= RCC_CFGR_SW_PLL;
-  while ((RCC->CFGR & RCC_CFGR_SW_PLL) != RCC_CFGR_SW_PLL)
+  RCC->CFGR &= ~(3 << RCC_CFGR_SW_SHIFT);
+  RCC->CFGR |= (RCC_CFGR_SW_PLL << RCC_CFGR_SW_SHIFT);
+  while (((RCC->CFGR >> RCC_CFGR_SW_SHIFT) & 3) != RCC_CFGR_SW_PLL)
     ;
 
   RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
