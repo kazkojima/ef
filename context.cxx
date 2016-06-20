@@ -30,6 +30,8 @@
 
 #if defined(MCU_STM32F446)
 # include "mcu/stm32/context.cxx"
+#elif defined(MCU_STM32F746)
+# include "mcu/stm32/context.cxx"
 #elif defined(MCU_LPC11C24)
 # include "mcu/lpc11xx/context.cxx"
 #else
