@@ -98,6 +98,6 @@ SECTIONS
     _end            = .;
 }
 
-__initial_sp__ = __ram0_end__ - 32;
+__initial_sp__ = __ram_end__ - 32;
 __heap_base__   = _end;
 __heap_end__    = __ram_end__ - 256;
