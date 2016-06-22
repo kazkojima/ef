@@ -25,7 +25,7 @@
 /*
  * Port A setup.
  * PA13, PA14 - SWD(AF0)
- * PA15 - I2S1_WS (AF5)
+ * PA15 - I2S3_WS (AF6)
  */
 #define GPIOA_MODER   0xa8000000 // AF Pin 15,14,13
 #define GPIOA_OTYPER  0x00000000 // Push-Pull
@@ -33,27 +33,23 @@
 #define GPIOA_PUPDR   0x64155555 // Pin14 pull-down Pin13,12 floating
 #define GPIOA_ODR     0x00000000
 #define GPIOA_AFR0    0x00000000
-#define GPIOA_AFR1    0x50000000 // AF5 Pin15 AF0 Pin14,13
+#define GPIOA_AFR1    0x60000000 // AF6 Pin15 AF0 Pin14,13
 
 /*
  * Port B setup.
  * PB0  - LED green (LED 1:ON 0:OFF)
- * PB3  - I2S1_CK (AF5)
- * PB5  - I2S1_SD (AF5)
+ * PB3  - I2S3_CK (AF6)
+ * PB5  - I2S3_SD (AF6)
  * PB7  - LED blue
- * PB8  - CAN1_RX (AF9)
- * PB9  - CAN1_TX (AF9)
- * PB12 - CAN2_RX (AF9)
- * PB13 - CAN2_TX (AF9)
  * PB14 - LED red
  */
-#define GPIOB_MODER   0x1a0a4881 // AF9 Pin13,12,9,8 AF5 Pin5,3 
+#define GPIOB_MODER   0x10004881 // AF9 Pin13,12 AF5 Pin5,3 
 #define GPIOB_OTYPER  0x00000000 // Push-Pull
 #define GPIOB_OSPEEDR 0x00000cc0 // High speed: Pin5,3
 #define GPIOB_PUPDR   0x55555555 // Pull-up
 #define GPIOB_ODR     0x00000000
-#define GPIOB_AFR0    0x00505000 // AF5 Pin5,3
-#define GPIOB_AFR1    0x00990099 // AF9 Pin13,12,9,8
+#define GPIOB_AFR0    0x00606000 // AF6 Pin5,3
+#define GPIOB_AFR1    0x00000000
 
 /*
  * Port C setup.
@@ -69,18 +65,76 @@
 
 /*
  * Port D setup.
+ * PD0  - CAN1_RX (AF9)
+ * PD1  - CAN1_TX (AF9)
  * PD8  - USART3_TX (AF7)
  * PD9  - USART3_RX (AF7)
- * PD12 - I2C3_SCL(AF4)
- * PD13 - I2C3_SDA(AF4)
  */
-#define GPIOD_MODER   0x0a0a0000 // AF Pin9,8
-#define GPIOD_OTYPER  0x00003000 // Pin13,12 Open drain otherwise Push-Pull
-#define GPIOD_OSPEEDR 0x0f000000 // High speed: Pin13,12
+#define GPIOD_MODER   0x000a000a // AF Pin9,8,1,0
+#define GPIOD_OTYPER  0x00000000 // Push-Pull
+#define GPIOD_OSPEEDR 0x00000000 // High speed: Pin13,12
 #define GPIOD_PUPDR   0x55505555 // Pin9,8 floating
 #define GPIOD_ODR     0x00000000
-#define GPIOD_AFR0    0x00000000
-#define GPIOD_AFR1    0x00440077 // AF4 Pin13,12 AF7 Pin9,8
+#define GPIOD_AFR0    0x00000099 // AF9 Pin1,0
+#define GPIOD_AFR1    0x00000077 // AF7 Pin9,8
+
+/*
+ * Port E setup.
+ */
+#define GPIOE_MODER   0x00000000
+#define GPIOE_OTYPER  0x00000000 // Push-Pull
+#define GPIOE_OSPEEDR 0x00000000
+#define GPIOE_PUPDR   0x55555555
+#define GPIOE_ODR     0x00000000
+#define GPIOE_AFR0    0x00000000
+#define GPIOE_AFR1    0x00000000
+
+/*
+ * Port F setup.
+ * PF0  - I2C2_SDA(AF4)
+ * PF1  - I2C2_SCL(AF4)
+ */
+#define GPIOF_MODER   0x0000000a // AF Pin1,0
+#define GPIOF_OTYPER  0x00000003 // Pin1,0 Open drain otherwise Push-Pull
+#define GPIOF_OSPEEDR 0x0000000f // High speed: Pin1,0
+#define GPIOF_PUPDR   0x55555555
+#define GPIOF_ODR     0x00000000
+#define GPIOF_AFR0    0x00000044 // AF4 Pin1,0 
+#define GPIOF_AFR1    0x00000000
+
+/*
+ * Port G setup.
+ */
+#define GPIOG_MODER   0x00000000
+#define GPIOG_OTYPER  0x00000000 // Push-Pull
+#define GPIOG_OSPEEDR 0x00000000
+#define GPIOG_PUPDR   0x55555555
+#define GPIOG_ODR     0x00000000
+#define GPIOG_AFR0    0x00000000
+#define GPIOG_AFR1    0x00000000
+
+/*
+ * Port H setup.
+ */
+#define GPIOH_MODER   0x00000000
+#define GPIOH_OTYPER  0x00000000 // Push-Pull
+#define GPIOH_OSPEEDR 0x00000000
+#define GPIOH_PUPDR   0x55555555
+#define GPIOH_ODR     0x00000000
+#define GPIOH_AFR0    0x00000000
+#define GPIOH_AFR1    0x00000000
+
+/*
+ * Port I setup.
+ */
+#define GPIOI_MODER   0x00000000
+#define GPIOI_OTYPER  0x00000000 // Push-Pull
+#define GPIOI_OSPEEDR 0x00000000
+#define GPIOI_PUPDR   0x55555555
+#define GPIOI_ODR     0x00000000
+#define GPIOI_AFR0    0x00000000
+#define GPIOI_AFR1    0x00000000
+
 
 #define GPIO_LED GPIOB
 #define GPIO_LED_SET_TO_EMIT    0
@@ -97,7 +151,7 @@ ef::mcu::gpio_init (void)
   RCC->APB1RSTR = RCC_APB1RSTR_CAN1RST;
   RCC->APB1RSTR = 0;
 
-#if UAVCAN_STM32_NUM_IFACES > 1
+#if 0
   RCC->APB1ENR |= RCC_APB1ENR_CAN2EN;
   RCC->APB1RSTR = RCC_APB1RSTR_CAN2RST;
   RCC->APB1RSTR = 0;
@@ -107,11 +161,17 @@ ef::mcu::gpio_init (void)
   RCC->AHB1ENR |= (RCC_AHB1ENR_GPIOAEN
 		   | RCC_AHB1ENR_GPIOBEN
 		   | RCC_AHB1ENR_GPIOCEN
-		   | RCC_AHB1ENR_GPIODEN);
+		   | RCC_AHB1ENR_GPIODEN
+		   | RCC_AHB1ENR_GPIOEEN
+		   | RCC_AHB1ENR_GPIOFEN
+		   | RCC_AHB1ENR_GPIOGEN);
   RCC->AHB1RSTR = (RCC_AHB1RSTR_GPIOARST
 		   | RCC_AHB1RSTR_GPIOBRST
 		   | RCC_AHB1RSTR_GPIOCRST
-		   | RCC_AHB1RSTR_GPIODRST);
+		   | RCC_AHB1RSTR_GPIODRST
+		   | RCC_AHB1RSTR_GPIOERST
+		   | RCC_AHB1RSTR_GPIOFRST
+		   | RCC_AHB1RSTR_GPIOGRST);
   RCC->AHB1RSTR = 0;
 
   GPIOA->AFR[0]  = GPIOA_AFR0;
@@ -145,6 +205,30 @@ ef::mcu::gpio_init (void)
   GPIOD->ODR     = GPIOA_ODR;
   GPIOD->MODER   = GPIOD_MODER;
   GPIOD->PUPDR   = GPIOD_PUPDR;
+
+  GPIOE->AFR[0]  = GPIOE_AFR0;
+  GPIOE->AFR[1]  = GPIOE_AFR1;
+  GPIOE->OSPEEDR = GPIOE_OSPEEDR;
+  GPIOE->OTYPER  = GPIOE_OTYPER;
+  GPIOE->ODR     = GPIOA_ODR;
+  GPIOE->MODER   = GPIOE_MODER;
+  GPIOE->PUPDR   = GPIOE_PUPDR;
+
+  GPIOF->AFR[0]  = GPIOF_AFR0;
+  GPIOF->AFR[1]  = GPIOF_AFR1;
+  GPIOF->OSPEEDR = GPIOF_OSPEEDR;
+  GPIOF->OTYPER  = GPIOF_OTYPER;
+  GPIOF->ODR     = GPIOA_ODR;
+  GPIOF->MODER   = GPIOF_MODER;
+  GPIOF->PUPDR   = GPIOF_PUPDR;
+
+  GPIOG->AFR[0]  = GPIOG_AFR0;
+  GPIOG->AFR[1]  = GPIOG_AFR1;
+  GPIOG->OSPEEDR = GPIOG_OSPEEDR;
+  GPIOG->OTYPER  = GPIOG_OTYPER;
+  GPIOG->ODR     = GPIOA_ODR;
+  GPIOG->MODER   = GPIOG_MODER;
+  GPIOG->PUPDR   = GPIOG_PUPDR;
 }
 
 void

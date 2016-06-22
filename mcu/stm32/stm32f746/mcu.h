@@ -702,6 +702,13 @@ struct DMA_Stream
 #define GPIOB_BASE		(AHB1PERIPH_BASE + 0x0400)
 #define GPIOC_BASE		(AHB1PERIPH_BASE + 0x0800)
 #define GPIOD_BASE		(AHB1PERIPH_BASE + 0x0C00)
+#define GPIOE_BASE		(AHB1PERIPH_BASE + 0x1000)
+#define GPIOF_BASE		(AHB1PERIPH_BASE + 0x1400)
+#define GPIOG_BASE		(AHB1PERIPH_BASE + 0x1800)
+#define GPIOH_BASE		(AHB1PERIPH_BASE + 0x1C00)
+#define GPIOI_BASE		(AHB1PERIPH_BASE + 0x2000)
+#define GPIOJ_BASE		(AHB1PERIPH_BASE + 0x2400)
+#define GPIOK_BASE		(AHB1PERIPH_BASE + 0x2800)
 #define TIM2_BASE		(APB1PERIPH_BASE + 0x0000)
 #define TIM3_BASE		(APB1PERIPH_BASE + 0x0400)
 #define TIM4_BASE		(APB1PERIPH_BASE + 0x0800)
@@ -737,6 +744,9 @@ static struct GPIO *const GPIOA = ((struct GPIO *const) GPIOA_BASE);
 static struct GPIO *const GPIOB = ((struct GPIO *const) GPIOB_BASE);
 static struct GPIO *const GPIOC = ((struct GPIO *const) GPIOC_BASE);
 static struct GPIO *const GPIOD = ((struct GPIO *const) GPIOD_BASE);
+static struct GPIO *const GPIOE = ((struct GPIO *const) GPIOE_BASE);
+static struct GPIO *const GPIOF = ((struct GPIO *const) GPIOF_BASE);
+static struct GPIO *const GPIOG = ((struct GPIO *const) GPIOG_BASE);
 static struct TIM *const TIM2 = ((struct TIM *const) TIM2_BASE);
 static struct TIM *const TIM3 = ((struct TIM *const) TIM3_BASE);
 static struct TIM *const TIM4 = ((struct TIM *const) TIM4_BASE);
