@@ -23,10 +23,9 @@
 
 using namespace ef;
 
-#if defined(MCU_STM32F446)
 // Example: usart echo thread
 
-#define INTR_REQ_USART2		38
+#define INTR_REQ_USART3		39
 
 static void
 echo (void *arg  __attribute__ ((unused)))
@@ -37,31 +36,28 @@ echo (void *arg  __attribute__ ((unused)))
     {
       bitset flags;
 
-      // USART2 RX interrupt handler with timeout function
+      // USART3 RX interrupt handler with timeout function
       thread::poll_section ();
       flags.clear ();
       id_t to_id = eventflag::timeout_event (5000*1000);
       flags.add (to_id);
-      id_t irq_id = eventflag::irq_event (INTR_REQ_USART2);
+      id_t irq_id = eventflag::irq_event (INTR_REQ_USART3);
       flags.add (irq_id);
       id_t id = thread::poll (flags);
       if (id == irq_id)
-	board::usart_send (USART2->DR);
+	board::usart_send (USART3->RDR);
       else
 	board::usart_send ('x');
     }
 }
-#endif
 
 // Yet another led brinker
 
 void
 ef::main (void *arg  __attribute__ ((unused)))
 {
-#if defined(MCU_STM32F446)
   thread *tp = thread::create (5, echo, NULL, NULL, 512, 0);
   tp->run ();
-#endif
 
   while (1)
     {
