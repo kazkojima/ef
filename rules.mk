@@ -1,36 +1,4 @@
-# Makefile
-
-PROJECT = sample
-
-### This is an example for LPC11C24
-
-LDSCRIPT= mcu/lpc11xx/lpc11c24/ef.ld
-CXXSRC = \
-	sys.cxx \
-	rcc.cxx \
-	gpio.cxx \
-	systimer.cxx \
-	usart.cxx \
-	irq.cxx \
-	heap.cxx \
-	context.cxx \
-	ef.cxx \
-	efmain.cxx \
-
-###################################
-CROSS = arm-none-eabi-
-CC   = $(CROSS)gcc
-CXX  = $(CROSS)g++
-LD   = $(CROSS)g++
-OBJCOPY   = $(CROSS)objcopy
-
-MCU   = cortex-m0
-CWARN = -Wall -Wextra
-DEFS  = -DFREE_STANDING -DMHZ=48 -DMCU_LPC11C24
-OPT   = -O3 -Os -g
-LIBS  =
-
-INCDIR += .
+INCDIR += . $(EFROOT)
 BUILDDIR = build
 
 CXXOBJS = $(addprefix $(BUILDDIR)/, $(notdir $(CXXSRC:.cxx=.o)))
@@ -56,14 +24,13 @@ MCFLAGS   = -mcpu=$(MCU)
 
 CFLAGS    = $(MCFLAGS) $(OPT) $(CWARN) -Wa,-alms=$(BUILDDIR)/$(notdir $(<:.c=.lst)) $(DEFS)
 
-# -lgcc-m0 to workaround temporal libgcc problem
-LDFLAGS = $(MCFLAGS) -nostartfiles -lgcc-m0 -T$(LDSCRIPT) -Wl,-Map=$(BUILDDIR)/$(PROJECT).map,--cref,--no-warn-mismatch,--gc-sections $(LLIBDIR)
+LDFLAGS = $(MCFLAGS) -nostartfiles -T$(LDSCRIPT) -Wl,-Map=$(BUILDDIR)/$(PROJECT).map,--cref,--no-warn-mismatch $(LLIBDIR)
 
 CFLAGS   += -mthumb -mno-thumb-interwork -DTHUMB
 LDFLAGS  += -mthumb -mno-thumb-interwork
 
 CFLAGS   += -MD -MP -MF .dep/$(@F).d
-CXXFLAGS += $(CFLAGS) -std=c++11 -fno-common -fno-exceptions -fno-unwind-tables -fno-stack-protector -fomit-frame-pointer
+CXXFLAGS += $(CFLAGS) -std=c++11 -fno-common -fno-exceptions -fno-unwind-tables -fno-stack-protector
 
 all: $(OUTFILES)
 
@@ -100,5 +67,3 @@ clean:
 
 # Include dependency files.
 -include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
-
-distclean: clean
