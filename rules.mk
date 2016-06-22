@@ -24,7 +24,7 @@ MCFLAGS   = -mcpu=$(MCU)
 
 CFLAGS    = $(MCFLAGS) $(OPT) $(CWARN) -Wa,-alms=$(BUILDDIR)/$(notdir $(<:.c=.lst)) $(DEFS)
 
-LDFLAGS = $(MCFLAGS) -nostartfiles -T$(LDSCRIPT) -Wl,-Map=$(BUILDDIR)/$(PROJECT).map,--cref,--no-warn-mismatch $(LLIBDIR)
+LDFLAGS = $(MCFLAGS) -nostartfiles $(EXTRA_LDFLAGS) -T$(LDSCRIPT) -Wl,-Map=$(BUILDDIR)/$(PROJECT).map,--cref,--no-warn-mismatch $(LLIBDIR)
 
 CFLAGS   += -mthumb -mno-thumb-interwork -DTHUMB
 LDFLAGS  += -mthumb -mno-thumb-interwork
