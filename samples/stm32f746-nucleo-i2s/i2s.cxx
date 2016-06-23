@@ -94,7 +94,7 @@ i2s_init (void)
   while (DMA1_Stream[0].CR & DMA_SxCR_EN)
     ;
   DMA1->LIFCR = (DMA1->LISR
-		 & (DMA_TCIF2|DMA_HTIF2|DMA_TEIF2|DMA_DMEIF2|DMA_FEIF2));
+		 & (DMA_TCIF0|DMA_HTIF0|DMA_TEIF0|DMA_DMEIF0|DMA_FEIF0));
   DMA1_Stream[0].PAR = (uint32_t) (void *) &(I2S3->DR);
   DMA1_Stream[0].M0AR = (uint32_t) (void *) buf0;
   DMA1_Stream[0].M1AR = (uint32_t) (void *) buf1;
@@ -178,18 +178,18 @@ i2s_spectrum (void *arg  __attribute__ ((unused)))
       id_t id = thread::poll (flags);
       // Get status and handle errors
       isr = DMA1->LISR;
-      if (isr & (DMA_TEIF2|DMA_DMEIF2|DMA_FEIF2))
+      if (isr & (DMA_TEIF0|DMA_DMEIF0|DMA_FEIF0))
 	{
 	  // Report error and restart dma - NOTYET
 	  // Clear these flags
-	  DMA1->LIFCR = isr & (DMA_TEIF2|DMA_DMEIF2|DMA_FEIF2);
+	  DMA1->LIFCR = isr & (DMA_TEIF0|DMA_DMEIF0|DMA_FEIF0);
 	}
-      if (!(isr & DMA_TCIF2))
+      if (!(isr & DMA_TCIF0))
 	{
-	  DMA1->LIFCR = isr & DMA_TCIF2;
+	  DMA1->LIFCR = isr & DMA_TCIF0;
 	  continue;
 	}
-      DMA1->LIFCR = isr & DMA_TCIF2;
+      DMA1->LIFCR = isr & DMA_TCIF0;
       
       board::set_led (i2s_current_buffer ());
 
