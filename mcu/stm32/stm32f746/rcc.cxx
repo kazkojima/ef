@@ -89,11 +89,13 @@ ef::mcu::rcc_init (void)
   while (!(RCC->CR & RCC_CR_PLLRDY))
     ;
 
+  RCC->DCKCFGR1 = 0;
+
   // PLLI2S setup
   RCC->PLLI2SCFGR = ((192 << 6)		// PLLN=192 */
 		     | (1 << 16)	// PLLP=DIV4 0:DIV2 1:DIV4 2:DIV6 3:DIV8
 		     | (4 << 24)	// PLLQ=4
-		     | (4 << 28));	// PLLR=4
+		     | (2 << 28));	// PLLR=2
   RCC->CR |= RCC_CR_PLLI2SON;
   while (!(RCC->CR & RCC_CR_PLLI2SRDY))
     ;
@@ -120,7 +122,6 @@ ef::mcu::rcc_init (void)
 	       | (0 << 2)		// SWS read only bits
 	       | (0 << 0));	// SW 0:HSI 1:HSE 2:PLL
 
-  RCC->DCKCFGR1 = 0;
   RCC->DCKCFGR2 = RCC_DCKCFGR2_CK48MSEL;	// CK48MSEL 0:PLL_Q 1:PLLSAI_P
 
   /*
