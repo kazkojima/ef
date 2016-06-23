@@ -22,8 +22,10 @@
 // USART3 at 38400 baud rate for system use
 
 #define INTR_REQ_USART3		39
-#define INTR_REQ_DMA1_Stream5	16
-#define INTR_REQ_DMA1_Stream6	17
+// USART3_RX DMA1 CH4 Stream1
+#define INTR_REQ_DMA1_Stream1	12
+// USART3_TX DMA1 CH4 Stream3
+#define INTR_REQ_DMA1_Stream3	14
 
 #define ISR_TXE		(1 << 7)
 #define ISR_TC		(1 << 6)
@@ -61,7 +63,7 @@ ef::board::usart_init (void)
   USART3->CR2 = CR2_STOP2;
   USART3->CR3 = 0;
   
-  // PCLK=54MHz Baud=38.4kHz div=1250
+  // PCLK=54MHz Baud=38.4kHz div=1406
   USART3->BRR = 1406;
   USART3->CR1 = CR1_RXNEIE | CR1_TE | CR1_RE | CR1_UE;
 }
