@@ -21,7 +21,9 @@ CXXSRC = \
 	efmain.cxx
 
 CSRC = \
-	fftsg.c
+	fftsg.c \
+	sincosf.c \
+	logf.c
 
 ###################################
 CROSS = arm-none-eabi-

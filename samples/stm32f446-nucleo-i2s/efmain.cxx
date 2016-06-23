@@ -30,6 +30,7 @@ using namespace ef;
 // GPFFT(General Purpose FFT) is written and copyrighted by Takuya OOURA.
 // See readme.GPFFT.txt for details.
 
+extern void i2s_init (void);
 extern void i2s_spectrum (void *arg);
 
 // Yet another led brinker
@@ -37,22 +38,11 @@ extern void i2s_spectrum (void *arg);
 void
 ef::main (void *arg  __attribute__ ((unused)))
 {
-  thread *tp = thread::create (5, i2s_spectrum, NULL, NULL, 512, 0);
+  i2s_init ();
+
+  thread *tp = thread::create (5, i2s_spectrum, NULL, NULL, 8192, 0);
   tp->run ();
 
   while (1)
-    {
-      bitset flags;
-
-      board::set_led (true);
-      thread::poll_section ();
-      flags.clear ();
-      flags.add (eventflag::timeout_event (1000*1000));
-      thread::poll (flags);
-      board::set_led (false);
-      thread::poll_section ();
-      flags.clear ();
-      flags.add (eventflag::timeout_event (500*1000));
-      thread::poll (flags);
-    }
+    ;
 }

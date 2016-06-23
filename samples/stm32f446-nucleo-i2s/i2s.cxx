@@ -68,6 +68,11 @@ static uint32_t buf1[I2S_BUFSIZE/2+1];
 void
 i2s_init (void)
 {
+  // Enable DMA2
+  RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
+  RCC->APB1RSTR = RCC_AHB1RSTR_DMA2RST;
+  RCC->APB1RSTR = 0;
+
   // Enable SPI1 clock.
   RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
   RCC->APB2RSTR = RCC_APB2RSTR_SPI1RST;
