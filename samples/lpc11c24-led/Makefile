@@ -32,8 +32,8 @@ DEFS  = -DFREE_STANDING -DMHZ=48 -DMCU_LPC11C24
 OPT   = -O3 -Os -g
 LIBS  =
 
-# -lgcc-m0 to workaround temporal libgcc problem
-EXTRA_LDFLAGS=-lgcc-m0
+# -lgcc-m0 was a workaround for temporal libgcc problem of old toolchain
+# EXTRA_LDFLAGS=-lgcc-m0
 
 include $(EFROOT)/rules.mk
 
