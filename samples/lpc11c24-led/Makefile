@@ -33,7 +33,7 @@ OPT   = -O3 -Os -g
 LIBS  =
 
 # -lgcc-m0 to workaround temporal libgcc problem
-EXTRA_LDFLAGS=-lgcc-m0
+# EXTRA_LDFLAGS=-lgcc-m0
 
 include $(EFROOT)/rules.mk
 
