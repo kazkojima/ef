@@ -22,6 +22,15 @@
 #include "systimer.h"
 #include "context.h"
 
+// Code Read Protection
+#if defined (ENABLE_ISP)
+// Enable ISP
+uint32_t crp __attribute__ ((section(".crp"))) = 0;
+#else
+// NO_ISP
+uint32_t crp __attribute__ ((section(".crp"))) = 0x4E697370;
+#endif
+
 typedef void (*initfp)(void);
 
 static void

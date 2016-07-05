@@ -20,6 +20,9 @@ SECTIONS
     {
 	_startup = .;
         KEEP(*(.startup.vectors))
+	. = 0x2fc;
+	KEEP(*(.crp))
+	. = 0x300;
     } > flash
 
     _text = .;
