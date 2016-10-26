@@ -24,15 +24,18 @@
 
 /*
  * Port A setup.
+ * PA1  - RMII_REF_CLK(AF11)
+ * PA2  - RMII_MDIO(AF11)
+ * PA7  - RMII_RX_DV(AF11)
  * PA13, PA14 - SWD(AF0)
  * PA15 - I2S3_WS (AF6)
  */
-#define GPIOA_MODER   0xa8000000 // AF Pin 15,14,13
+#define GPIOA_MODER   0xa8008028 // AF Pin15,14,13,2,1
 #define GPIOA_OTYPER  0x00000000 // Push-Pull
 #define GPIOA_OSPEEDR 0x00000000 // High speed: Pin12,11
-#define GPIOA_PUPDR   0x64155555 // Pin14 pull-down Pin13,12 floating
+#define GPIOA_PUPDR   0x64155551 // Pin14 pull-down Pin13,12,1 floating
 #define GPIOA_ODR     0x00000000
-#define GPIOA_AFR0    0x00000000
+#define GPIOA_AFR0    0xb0000bb0 // AF11 2,1
 #define GPIOA_AFR1    0x60000000 // AF6 Pin15 AF0 Pin14,13
 
 /*
@@ -41,26 +44,31 @@
  * PB3  - I2S3_CK (AF6)
  * PB5  - I2S3_SD (AF6)
  * PB7  - LED blue
+ * PB13 - RMII_TXD1(AF11)
  * PB14 - LED red
  */
-#define GPIOB_MODER   0x10004881 // AF9 Pin13,12 AF5 Pin5,3 
+#define GPIOB_MODER   0x18004881 // AF11 Pin13 AF6 Pin5,3 
 #define GPIOB_OTYPER  0x00000000 // Push-Pull
 #define GPIOB_OSPEEDR 0x00000cc0 // High speed: Pin5,3
 #define GPIOB_PUPDR   0x55555555 // Pull-up
 #define GPIOB_ODR     0x00000000
 #define GPIOB_AFR0    0x00606000 // AF6 Pin5,3
-#define GPIOB_AFR1    0x00000000
+#define GPIOB_AFR1    0x00b00000 // AF11 Pin13
 
 /*
  * Port C setup.
+ * PC1  - RMII_MDC (AF11)
+ * PC4  - RMII_RXD0 (AF11)
+ * PC5  - RMII_RXD1 (AF11)
+ * PC7  - I2S3_MCK (AF6)
  * PC13 - USER Button
  */
-#define GPIOC_MODER   0x00000000 // Input Pin13
+#define GPIOC_MODER   0x00008a08 // Input Pin13 AF6 Pin7 AF11 Pin5,4,1
 #define GPIOC_OTYPER  0x00000000 // Push-Pull
-#define GPIOC_OSPEEDR 0x00000000
-#define GPIOC_PUPDR   0x01555555 // Input Pin15-13 floating
+#define GPIOC_OSPEEDR 0x0000c000 // High speed: Pin7
+#define GPIOC_PUPDR   0x01555051 // Input Pin15-13,5,4,1 floating
 #define GPIOC_ODR     0x00000000
-#define GPIOC_AFR0    0x00000000
+#define GPIOC_AFR0    0x60bb00b0 // AF6 Pin7 AF11 Pin5,4,1
 #define GPIOC_AFR1    0x00000000
 
 /*
@@ -104,14 +112,16 @@
 
 /*
  * Port G setup.
+ * PG11 - RMII_TX_EN (AF11)
+ * PG13 - RMII_TXD0 (AF11)
  */
-#define GPIOG_MODER   0x00000000
+#define GPIOG_MODER   0x08800000 // AF Pin13,11
 #define GPIOG_OTYPER  0x00000000 // Push-Pull
 #define GPIOG_OSPEEDR 0x00000000
-#define GPIOG_PUPDR   0x55555555
+#define GPIOG_PUPDR   0x51155555 // Pin13,11 floating
 #define GPIOG_ODR     0x00000000
 #define GPIOG_AFR0    0x00000000
-#define GPIOG_AFR1    0x00000000
+#define GPIOG_AFR1    0x00b0b000 // AF11 Pin13,11
 
 /*
  * Port H setup.

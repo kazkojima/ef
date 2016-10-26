@@ -32,17 +32,37 @@ using namespace ef;
 
 extern void i2s_init (void);
 extern void i2s_spectrum (void *arg);
+extern void lwip_thread (void *arg);
 
-// Yet another led brinker
+static uint32_t millis;
+
+// Yet another led brinker?
 
 void
 ef::main (void *arg  __attribute__ ((unused)))
 {
   i2s_init ();
 
-  thread *tp = thread::create (5, i2s_spectrum, NULL, NULL, 8192, 0);
+  thread *ltp = thread::create (5, lwip_thread, NULL, NULL, 2048, 0);
+  ltp->run ();
+  thread *tp = thread::create (6, i2s_spectrum, NULL, NULL, 8192, 0);
   tp->run ();
 
   while (1)
-    ;
+    {
+      bitset flags;
+
+      thread::poll_section ();
+      flags.clear ();
+      flags.add (eventflag::timeout_event (1000));
+      thread::poll (flags);
+      millis++;
+    }
+}
+
+extern "C" {
+  uint32_t sys_now (void)
+  {
+    return millis;
+  }
 }

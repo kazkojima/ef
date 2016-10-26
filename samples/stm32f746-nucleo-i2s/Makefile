@@ -6,6 +6,15 @@ PROJECT = sample
 
 EFROOT=../..
 
+LWIPDIR=./lwip/src
+
+include $(LWIPDIR)/Filelists.mk
+
+LWIPSRC= $(COREFILES) \
+        $(CORE4FILES) \
+        $(APIFILES) \
+	$(NETIFFILES)
+
 LDSCRIPT= $(EFROOT)/mcu/stm32/stm32f746/ef.ld
 CXXSRC = \
 	$(EFROOT)/sys.cxx \
@@ -18,10 +27,14 @@ CXXSRC = \
 	$(EFROOT)/context.cxx \
 	$(EFROOT)/ef.cxx \
 	i2s.cxx \
+	mac.cxx \
 	efmain.cxx
 
 CSRC = \
-	fftsg.c
+	$(EFROOT)/dummy-syscalls.c \
+	fftsg.c \
+	$(LWIPSRC) \
+	lwipif.c
 
 ###################################
 CROSS = arm-none-eabi-
@@ -34,6 +47,7 @@ MCU   = cortex-m7
 CWARN = -Wall -Wextra
 DEFS  = -DFREE_STANDING -DMHZ=216 -DMCU_STM32F746 -DUSE_FPU_AUTO_SAVE
 OPT   = -O3 -Os -g -mfloat-abi=hard -mfpu=fpv4-sp-d16 -ffast-math
+INCDIR += $(LWIPDIR)/include
 LIBS  =
 
 include $(EFROOT)/rules.mk

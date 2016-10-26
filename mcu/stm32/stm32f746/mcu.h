@@ -581,6 +581,78 @@ struct ADCC
   volatile uint32_t CDR;
 };
 
+/* ethernet MAC */
+
+struct ETH
+{
+  volatile uint32_t MACCR;
+  volatile uint32_t MACFFR;
+  volatile uint32_t MACHTHR;
+  volatile uint32_t MACHTLR;
+  volatile uint32_t MACMIIAR;
+  volatile uint32_t MACMIIDR;
+  volatile uint32_t MACFCR;
+  volatile uint32_t MACVLANTR;
+  uint32_t dummy0[2];
+  volatile uint32_t MACRWUFFR;
+  volatile uint32_t MACPMTCSR;
+  uint32_t dummy1[2];
+  volatile uint32_t MACSR;
+  volatile uint32_t MACIMR;
+  volatile uint32_t MACA0HR;
+  volatile uint32_t MACA0LR;
+  volatile uint32_t MACA1HR;
+  volatile uint32_t MACA1LR;
+  volatile uint32_t MACA2HR;
+  volatile uint32_t MACA2LR;
+  volatile uint32_t MACA3HR;
+  volatile uint32_t MACA3LR;
+  uint32_t dummy2[40];
+  volatile uint32_t MMCCR;
+  volatile uint32_t MMCRIR;
+  volatile uint32_t MMCTIR;
+  volatile uint32_t MMCRIMR;
+  volatile uint32_t MMCTIMR;
+  uint32_t dummy3[14];
+  volatile uint32_t MMCTGFSCCR;
+  volatile uint32_t MMCTGFMSCCR;
+  uint32_t dummy4[5];
+  volatile uint32_t MMCTGFCR;
+  uint32_t dummy5[10];
+  volatile uint32_t MMCRFCECR;
+  volatile uint32_t MMCRFAECR;
+  uint32_t dummy6[10];
+  volatile uint32_t MMCRGUFCR;
+  uint32_t dummy7[334];
+  volatile uint32_t PTPTSCR;
+  volatile uint32_t PTPSSIR;
+  volatile uint32_t PTPTSHR;
+  volatile uint32_t PTPTSLR;
+  volatile uint32_t PTPTSHUR;
+  volatile uint32_t PTPTSLUR;
+  volatile uint32_t PTPTSAR;
+  volatile uint32_t PTPTTHR;
+  volatile uint32_t PTPTTLR;
+  volatile uint32_t dummy8;
+  volatile uint32_t PTPTSSR;
+  uint32_t dummy9[565];
+  volatile uint32_t DMABMR;
+  volatile uint32_t DMATPDR;
+  volatile uint32_t DMARPDR;
+  volatile uint32_t DMARDLAR;
+  volatile uint32_t DMATDLAR;
+  volatile uint32_t DMASR;
+  volatile uint32_t DMAOMR;
+  volatile uint32_t DMAIER;
+  volatile uint32_t DMAMFBOCR;
+  volatile uint32_t DMARSWTR;
+  uint32_t dummy10[8];
+  volatile uint32_t DMACHTDR;
+  volatile uint32_t DMACHRDR;
+  volatile uint32_t DMACHTBAR;
+  volatile uint32_t DMACHRBAR;
+};
+
 /* DMA */
 
 struct DMA
@@ -735,6 +807,11 @@ struct DMA_Stream
 #define ADCC_BASE		(APB2PERIPH_BASE + 0x2300)
 #define DMA1_BASE		(AHB1PERIPH_BASE + 0x6000)
 #define DMA2_BASE		(AHB1PERIPH_BASE + 0x6400)
+#define ETH_BASE		(AHB1PERIPH_BASE + 0x8000)
+#define ETH_MAC_BASE		(ETH_BASE)
+#define ETH_MMC_BASE		(ETH_BASE + 0x0100U)
+#define ETH_PTP_BASE		(ETH_BASE + 0x0700U)
+#define ETH_DMA_BASE		(ETH_BASE + 0x1000U)
 
 static struct RCC *const RCC = ((struct RCC *const)RCC_BASE);
 static struct SYSCFG *const SYSCFG = ((struct SYSCFG *const) SYSCFG_BASE);
@@ -771,6 +848,7 @@ static struct ADC *const ADC1 = ((struct ADC *const) ADC1_BASE);
 static struct ADC *const ADC2 = ((struct ADC *const) ADC2_BASE);
 static struct ADC *const ADC3 = ((struct ADC *const) ADC3_BASE);
 static struct ADCC *const ADCC = ((struct ADCC *const) ADCC_BASE);
+static struct ETH *const ETH = ((struct ETH *const) ETH_BASE);
 static struct DMA *const DMA1 = ((struct DMA *const) DMA1_BASE);
 static struct DMA *const DMA2 = ((struct DMA *const) DMA2_BASE);
 static struct DMA_Stream *const DMA1_Stream __attribute__((unused)) =

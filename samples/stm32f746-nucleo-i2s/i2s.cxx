@@ -21,6 +21,10 @@
 #include "ef.h"
 #include "mcu.h"
 
+#include "lwip/opt.h"
+#include "lwip/pbuf.h"
+#include "lwip/udp.h"
+
 using namespace ef;
 
 #define INTR_REQ_I2S3		51
@@ -78,9 +82,11 @@ i2s_init (void)
   RCC->APB1RSTR = RCC_APB1RSTR_SPI3RST;
   RCC->APB1RSTR = 0;
 
-  /* fs=16k: SYSCLK=96MHz I2SDIV=47 ODD=0
-     fs=32k: SYSCLK=96MHz I2SDIV=23 ODD=1 */
-  I2S3->I2SPR = PR_ODD|23;
+  /* fs=16k: SYSCLK=96MHz I2SDIV=47 ODD=0 MCKOE=0
+     fs=32k: SYSCLK=96MHz I2SDIV=23 ODD=1 MCKOE=0
+     fs=16k: SYSCLK=96MHz I2SDIV=11 ODD=1 MCKOE=1
+     fs=32k: SYSCLK=96MHz I2SDIV=6  ODD=0 MCKOE=1 */
+  I2S3->I2SPR = PR_MCKOE|6;
   // master recieve, I2S Philips, data 24bit, 32-bit channel
   I2S3->I2SCFGR = (CFGR_I2SMOD | CFGR_MASTER | CFGR_RECIEVE
 		   | CFGR_I2SSTD_I2S | CFGR_DATALEN_24 | CFGR_CHLEN);
@@ -138,6 +144,16 @@ i2s_read (uint32_t *bp)
   return true;
 }
 
+#if 0
+static void
+print_hex (uint8_t u)
+{
+  const char *hex = "0123456789abcdef";
+  board::usart_send (hex[0xf & (u >> 4)]);
+  board::usart_send (hex[0xf & u]);
+}
+#endif
+
 extern "C" {
   extern float log10f (float);
   extern void cdft (int, int, float *, int *, float *);
@@ -151,11 +167,28 @@ static float cfdt_w[NMAX * 5 / 4];
 float spectrum[NMAX/2];
 
 void
-i2s_spectrum (void *arg  __attribute__ ((unused)))
+i2s_spectrum (void *arg __attribute__ ((unused)))
 {
   uint32_t isr;
   int i;
   float *ap, *tp;
+
+#if 0
+  board::usart_init ();
+
+  bitset toflags;
+  thread::poll_section ();
+  toflags.clear ();
+  id_t to_id = eventflag::timeout_event (5000*1000);
+  toflags.add (to_id);
+  thread::poll (toflags);
+#endif
+
+  struct udp_pcb *pcb = udp_new ();
+  struct pbuf *pbuf = pbuf_alloc (PBUF_RAW, 6, PBUF_POOL);
+  ip4_addr_t dstaddr;
+  IP4_ADDR (&dstaddr, 10, 253, 253, 41);
+  udp_connect (pcb, &dstaddr, 5800);
 
   // Prepare cfdt_w table.
   makewt (NMAX >> 2, cfdt_ip, cfdt_w);
@@ -175,7 +208,7 @@ i2s_spectrum (void *arg  __attribute__ ((unused)))
       flags.clear ();
       id_t irq_id = eventflag::irq_event (INTR_REQ_DMA1_Stream0);
       flags.add (irq_id);
-      id_t id = thread::poll (flags);
+      thread::poll (flags);
       // Get status and handle errors
       isr = DMA1->LISR;
       if (isr & (DMA_TEIF0|DMA_DMEIF0|DMA_FEIF0))
@@ -214,9 +247,9 @@ i2s_spectrum (void *arg  __attribute__ ((unused)))
 	  re = *tp++;
 	  im = *tp++;
 	  spectrum[i] = log10f (re * re + im * im);
-	  if (spectrum[i] >= 0)
+	  if (1 || spectrum[i] > 0)
 	    {
-	      uint8_t buf[6];
+	      uint8_t *buf = reinterpret_cast<uint8_t *>(pbuf->payload);
 	      union { float x; uint8_t bytes[4]; } u;
 	      u.x = spectrum[i];
 	      buf[0] = i >> 8;
@@ -225,10 +258,9 @@ i2s_spectrum (void *arg  __attribute__ ((unused)))
 	      buf[3] = u.bytes[1];
 	      buf[4] = u.bytes[2];
 	      buf[5] = u.bytes[3];
-	      // can_send (333, buf, sizeof (buf));
+	      udp_send (pcb, pbuf);
 	    }
 	}
       // EOM
-      // can_send (334, NULL, 0);
     }
 }

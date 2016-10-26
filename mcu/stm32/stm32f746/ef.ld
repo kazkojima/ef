@@ -7,15 +7,19 @@ MEMORY
     flash   : org = 0x00200000, len = 1024k
     lflash  : org = 0x08000000, len = 1024k
     ram0    : org = 0x20000000, len = 64k  /* DTCM-RAM */
-    ram	    : org = 0x20010000, len = 256k
+    ram	    : org = 0x20010000, len = 240k
+    eth	    : org = 0x2004c000, len = 16k
 }
 
 __ram0_start__          = ORIGIN(ram0);
 __ram0_size__           = 64k;
 __ram0_end__            = __ram0_start__ + __ram0_size__;
 __ram_start__           = ORIGIN(ram);
-__ram_size__            = 256k;
+__ram_size__            = 240k;
 __ram_end__             = __ram_start__ + __ram_size__;
+__eth_start__           = ORIGIN(eth);
+__eth_size__            = 16k;
+__eth_end__             = __eth_start__ + __eth_size__;
 
 SECTIONS
 {
@@ -100,6 +104,13 @@ SECTIONS
         . = ALIGN(4);
         PROVIDE(_bss_end = .);
     } > ram0
+
+    .eth (NOLOAD) :
+    {
+        . = ALIGN(4);
+	*(.eth)    
+        . = ALIGN(4);
+    } > eth
 
     PROVIDE(end = .);
     _end            = .;
