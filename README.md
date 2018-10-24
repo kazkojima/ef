@@ -49,10 +49,3 @@ make
 ```
 
 Then .elf and .bin binaries will be built in build/ directory.
-
-Remarks:
-
-[cortex-m0 libgcc.a issue]
-
-Perhaps build for cortex-m0 targets will fail with 'ld: cannot find -lgcc-m0'.  Makefiles for cortex-m0 targets include EXTRA\_LDFLAGS line which try to link libgcc-m0.a.  As commented in Makefile, this is a workaround some arm toolchains use problematic libgcc.a which includes non thumb instructions even for cortex-m0.  If your toolchain hasn't that issue, please comment out EXTRA\_LDFLAGS line.
-If it's case for you, you have to give libgcc-m0.a which has no such issue.
